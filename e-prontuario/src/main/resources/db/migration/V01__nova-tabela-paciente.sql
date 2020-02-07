@@ -1,4 +1,4 @@
-CREATE TABLE paciente(
+CREATE TABLE pacientes(
 	id BIGINT auto_increment NOT NULL,
 	nome VARCHAR(20) NOT NULL,
 	sobrenome VARCHAR(20) NOT NULL,
