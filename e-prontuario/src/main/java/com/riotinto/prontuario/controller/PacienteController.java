@@ -23,7 +23,7 @@ import com.riotinto.prontuario.model.Paciente;
 import com.riotinto.prontuario.repository.PacienteRepository;
 
 @RestController
-@RequestMapping("/pacientes")
+@RequestMapping("/paciente")
 public class PacienteController {
 
 	@Autowired
