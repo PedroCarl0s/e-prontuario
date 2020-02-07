@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,6 +65,19 @@ public class ProntuarioController {
 		return prontuarios.save(prontuario);
 	}
 	
-	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void deletar(@PathVariable Long id ) {
+		Optional<Prontuario> prontuario = prontuarios.findById(id);
+		
+		if (prontuario.isPresent()) {
+			prontuarios.deleteById(id);
+		
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"Não há um prontuário com o ID " + id);
+		}
+		
+	}
 	
 }
