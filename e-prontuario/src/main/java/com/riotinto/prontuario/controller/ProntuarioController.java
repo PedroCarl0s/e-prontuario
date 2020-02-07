@@ -43,5 +43,18 @@ public class ProntuarioController {
 		return ResponseEntity.ok(prontuario.get());
 	}
 		
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Prontuario adicionar(@Valid @RequestBody Prontuario prontuario) {
+		Optional<Prontuario> prontuarioExistente = prontuarios.findByIdAndNomePacienteAndQueixaPrincipal(
+				prontuario.getId(), prontuario.getNomePaciente(), prontuario.getQueixaPrincipal());
+		
+		if (prontuarioExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Já existe um prontuário com o ID " + prontuario.getId());
+		}
+		
+		return prontuarios.save(prontuario);
+	}
 	
 }
