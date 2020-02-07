@@ -1,13 +1,14 @@
 package com.riotinto.prontuario.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "funcionarios")
@@ -26,6 +27,7 @@ public class Funcionario {
 	private String sobrenome;
 	
 	@NotNull
+	@Column(name = "data_contratacao")
 	@Size(max = 10)
 	private String dataContratacao;
 	
@@ -34,6 +36,7 @@ public class Funcionario {
 	private String tipo;
 	
 	@NotNull
+	@Column(name = "local_de_trabalho")
 	@Size(max = 20)
 	private String nomeLocalDeTrabalho;
 
