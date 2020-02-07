@@ -21,6 +21,10 @@ public class Prontuario {
 	@Size(max = 30)
 	@Column(name = "nome_paciente")
 	private String nomePaciente;
+
+	@NotNull
+	@Size(max = 10)
+	private String data;
 	
 	@NotNull
 	@Size(max = 30)
@@ -64,6 +68,14 @@ public class Prontuario {
 		this.nomePaciente = nomePaciente;
 	}
 
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+	
 	public String getQueixaPrincipal() {
 		return queixaPrincipal;
 	}
