@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,6 +55,12 @@ public class PacienteController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Já existe um paciente com o mesmo nome, sobrenome e data de nascimento!");
 		}
 		
+		return pacientes.save(paciente);
+	}
+	
+	@PutMapping
+	@ResponseStatus(HttpStatus.OK)
+	public Paciente atualizar(@Valid @RequestBody Paciente paciente) {
 		return pacientes.save(paciente);
 	}
 	
