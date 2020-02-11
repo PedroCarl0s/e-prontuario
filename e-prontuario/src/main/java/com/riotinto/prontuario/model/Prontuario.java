@@ -9,19 +9,24 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "prontuarios")
 public class Prontuario {
 
+	@ApiModelProperty(notes = "Identificador do prontuário", name = "id", required = true)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@ApiModelProperty(notes = "Nome do paciente", name = "nome_paciente", required = true)
 	@NotNull
 	@Size(max = 30)
 	@Column(name = "nome_paciente")
 	private String nomePaciente;
 
+	@ApiModelProperty(notes = "Data de preenchimento", name = "data", required = true, value = "yyyy-mm-dd")
 	@NotNull
 	@Size(max = 10)
 	private String data;

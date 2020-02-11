@@ -11,43 +11,54 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
 @Table(name = "pacientes")
 public class Paciente {
 	
+	@ApiModelProperty(notes = "Identificador do paciente", name = "id", required = true)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@ApiModelProperty(notes = "Nome do paciente", name = "nome", required = true)
 	@NotEmpty
 	@Size(max = 20)
 	private String nome;
 	
+	@ApiModelProperty(notes = "Sobrenome do paciente", name = "sobrenome", required = true)
 	@NotEmpty
 	@Size(max = 20)
 	private String sobrenome;
 	
+	@ApiModelProperty(notes = "Data de nascimento", name = "data_nascimento", required = true, value = "yyyy-mm-dd")
 	@NotEmpty
 	@Column(name = "data_nascimento")
 	private String dataNascimento;
 	
+	@ApiModelProperty(notes = "Idade do paciente", name = "idade", required = true)
 	@NotNull
 	@Min(1)
 	private int idade;
 	
+	@ApiModelProperty(notes = "Naturalidade do paciente", name = "naturalidade", required = true)
 	@NotEmpty
 	@Size(max = 25)
 	private String naturalidade;
 	
+	@ApiModelProperty(notes = "Procedência do paciente", name = "procedencia", required = true)
 	@NotEmpty
 	@Size(max = 30)
 	private String procedencia;
 
+	@ApiModelProperty(notes = "Profissão do paciente", name = "profissao", required = true)
 	@NotEmpty
 	@Size(max = 30)
 	private String profissao;
 	
+	@ApiModelProperty(notes = "Nome da mãe", name = "nome_mae", required = true)
 	@NotEmpty
 	@Size(max = 35)
 	@Column(name = "nome_mae")
