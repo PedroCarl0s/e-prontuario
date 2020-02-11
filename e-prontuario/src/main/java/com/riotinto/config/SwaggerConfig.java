@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -34,6 +35,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	        .version("0.0.1")
 	        .license("Apache License Version 2.0")
 	        .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
+	        .contact(new Contact("Github", "https://github.com/dcx-cursos/projeto-avancado-group-1", ""))
 	        .build();
 	  }
 
