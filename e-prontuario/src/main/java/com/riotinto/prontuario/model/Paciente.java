@@ -1,10 +1,13 @@
 package com.riotinto.prontuario.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -45,7 +48,7 @@ public class Paciente {
 	
 	@ApiModelProperty(notes = "Naturalidade do paciente", name = "naturalidade", required = true)
 	@NotEmpty
-	@Size(max = 25)
+	@Size(max = 35)
 	private String naturalidade;
 	
 	@ApiModelProperty(notes = "Procedência do paciente", name = "procedencia", required = true)
@@ -64,6 +67,9 @@ public class Paciente {
 	@Column(name = "nome_mae")
 	private String nomeMae;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(unique = true)
+	private Endereco endereco;
 	
 	
 	public Long getId() {
@@ -136,6 +142,14 @@ public class Paciente {
 
 	public void setNomeMae(String nomeMae) {
 		this.nomeMae = nomeMae;
+	}
+	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override
