@@ -49,6 +49,22 @@ public class Funcionario {
 	private String nomeLocalDeTrabalho;
 
 	
+	public Funcionario() {
+		super();
+	}
+
+	public Funcionario(Long id, @NotNull @Size(max = 20) String nome, @NotNull @Size(max = 20) String sobrenome,
+			@NotNull @Size(max = 10) String dataContratacao, @NotNull @Size(max = 15) String tipo,
+			@NotNull @Size(max = 20) String nomeLocalDeTrabalho) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.dataContratacao = dataContratacao;
+		this.tipo = tipo;
+		this.nomeLocalDeTrabalho = nomeLocalDeTrabalho;
+	}
+
 	
 	public Long getId() {
 		return id;

@@ -34,6 +34,21 @@ public class Endereco {
 	private Paciente paciente;
 
 	
+	public Endereco() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Endereco(Long id, @NotNull @Size(max = 40) String rua, @NotNull @Size(max = 40) String bairro,
+			@NotEmpty @Size(min = 1) int numero, Paciente paciente) {
+		super();
+		this.id = id;
+		this.rua = rua;
+		this.bairro = bairro;
+		this.numero = numero;
+		this.paciente = paciente;
+	}
+
 	public Long getId() {
 		return id;
 	}
