@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/prontuario")
+@RequestMapping("/v1/api/prontuario")
 @CrossOrigin(origins = "*")
 @Api(value = "Prontuario", tags = { "Prontuário" })
 @ApiModel(description = "asfdasdfasdf", value = "asdfasdf")
