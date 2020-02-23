@@ -1,5 +1,6 @@
 package com.riotinto.prontuario.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.riotinto.prontuario.model.Prontuario;
-import com.riotinto.prontuario.repository.ProntuarioRepository;
+import com.riotinto.prontuario.service.ProntuarioService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
@@ -35,18 +37,18 @@ import io.swagger.annotations.ApiOperation;
 public class ProntuarioController {
 
 	@Autowired
-	private ProntuarioRepository prontuarios;
+	private ProntuarioService prontuarioService;
 	
 	@ApiOperation(value = "Lista todos os prontuários cadastrados", produces = "application/json")
 	@GetMapping
 	public List<Prontuario> listar() {
-		return prontuarios.findAll();
+		return prontuarioService.findAll();
 	}
 	
 	@ApiOperation(value = "Busca um prontuário pelo ID", produces = "application/json")
 	@GetMapping("/{id}")
 	public ResponseEntity<Prontuario> buscar(@PathVariable Long id) {
-		Optional<Prontuario> prontuario = prontuarios.findById(id);
+		Optional<Prontuario> prontuario = prontuarioService.findById(id);
 		
 		if (prontuario.isEmpty()) {
 			return ResponseEntity.notFound().build();
@@ -58,33 +60,48 @@ public class ProntuarioController {
 	@ApiOperation(value = "Adiciona um prontuário", produces = "application/json")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Prontuario adicionar(@Valid @RequestBody Prontuario prontuario) {
-		Optional<Prontuario> prontuarioExistente = prontuarios.findByIdAndNomePacienteAndQueixaPrincipal(
-				prontuario.getId(), prontuario.getNomePaciente(), prontuario.getQueixaPrincipal());
+	public ResponseEntity<Prontuario> adicionar(@Valid @RequestBody Prontuario prontuario) {
+		Optional<Prontuario> prontuarioExistente = prontuarioService.findByNomePacienteAndQueixaPrincipal(
+				prontuario.getNomePaciente(), prontuario.getQueixaPrincipal());
 		
 		if (prontuarioExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-					"Já existe um prontuário com o ID " + prontuario.getId());
+					"Já existe um prontuário com o mesmo nome do paciente e queixa principal");
 		}
 		
-		return prontuarios.save(prontuario);
+		prontuarioService.save(prontuario);
+		
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(prontuario.getId()).toUri();
+		
+		
+		return ResponseEntity.created(location).build() ;
 	}
 	
 	@ApiOperation(value = "Atualiza um prontuário", produces = "application/json")
-	@PutMapping
-	@ResponseStatus(HttpStatus.OK)
-	public Prontuario atualizar(@Valid @RequestBody Prontuario prontuario) {
-		return prontuarios.save(prontuario);
+	@PutMapping("/{id}")
+	public ResponseEntity<Prontuario> atualizar(@Valid @RequestBody Prontuario prontuario, @PathVariable Long id) {
+		Optional<Prontuario> prontuarioExistente = prontuarioService.findById(id);
+		
+		if (!prontuarioExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"Não existe um prontuário com o ID " + id);
+		}
+		
+		prontuario.setId(id);
+		prontuarioService.save(prontuario);
+		
+		return ResponseEntity.ok().body(prontuario);
 	}
 	
 	@ApiOperation(value = "Deleta um prontuário pelo ID", produces = "application/json")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void deletar(@PathVariable Long id ) {
-		Optional<Prontuario> prontuario = prontuarios.findById(id);
+		Optional<Prontuario> prontuario = prontuarioService.findById(id);
 		
 		if (prontuario.isPresent()) {
-			prontuarios.deleteById(id);
+			prontuarioService.delete(id);
 		
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
