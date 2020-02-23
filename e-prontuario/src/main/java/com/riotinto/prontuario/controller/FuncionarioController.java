@@ -24,12 +24,10 @@ import com.riotinto.prontuario.model.Funcionario;
 import com.riotinto.prontuario.repository.FuncionarioRepository;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 
 @RestController
-@RequestMapping("/funcionario")
+@RequestMapping("/v1/api/funcionario")
 @CrossOrigin(origins = "*")
 @Api(value = "Funcionario", tags = { "Funcionário" })
 public class FuncionarioController {

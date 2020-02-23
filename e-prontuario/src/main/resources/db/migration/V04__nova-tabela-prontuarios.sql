@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS prontuarios (
+CREATE TABLE prontuarios (
 	id BIGINT auto_increment NOT NULL,
 	nome_paciente VARCHAR(30) NOT NULL,
 	data VARCHAR(10) NOT NULL,
