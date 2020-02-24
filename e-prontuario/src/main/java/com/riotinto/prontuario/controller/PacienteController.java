@@ -47,7 +47,7 @@ public class PacienteController {
 	public ResponseEntity<Paciente> buscar(@PathVariable Long id) {
 		Optional<Paciente> paciente = pacientes.findById(id);
 		
-		if (paciente.isEmpty()) {
+		if (!paciente.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		

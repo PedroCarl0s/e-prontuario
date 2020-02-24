@@ -50,7 +50,7 @@ public class FuncionarioController {
 	public ResponseEntity<Funcionario> buscar(@PathVariable Long id) {
 		Optional<Funcionario> funcionario = funcionariosService.findById(id);
 		
-		if (funcionario.isEmpty()) {
+		if (!funcionario.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		

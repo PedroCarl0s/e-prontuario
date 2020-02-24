@@ -50,7 +50,7 @@ public class ProntuarioController {
 	public ResponseEntity<Prontuario> buscar(@PathVariable Long id) {
 		Optional<Prontuario> prontuario = prontuarioService.findById(id);
 		
-		if (prontuario.isEmpty()) {
+		if (!prontuario.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 		
