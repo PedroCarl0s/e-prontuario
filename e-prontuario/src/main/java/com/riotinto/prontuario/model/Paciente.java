@@ -72,6 +72,27 @@ public class Paciente {
 	private Endereco endereco;
 	
 	
+	public Paciente() {
+		super();
+	}
+
+	public Paciente(Long id, @NotEmpty @Size(max = 20) String nome, @NotEmpty @Size(max = 20) String sobrenome,
+			@NotEmpty String dataNascimento, @NotNull @Min(1) int idade, @NotEmpty @Size(max = 35) String naturalidade,
+			@NotEmpty @Size(max = 30) String procedencia, @NotEmpty @Size(max = 30) String profissao,
+			@NotEmpty @Size(max = 35) String nomeMae, Endereco endereco) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.dataNascimento = dataNascimento;
+		this.idade = idade;
+		this.naturalidade = naturalidade;
+		this.procedencia = procedencia;
+		this.profissao = profissao;
+		this.nomeMae = nomeMae;
+		this.endereco = endereco;
+	}
+
 	public Long getId() {
 		return id;
 	}

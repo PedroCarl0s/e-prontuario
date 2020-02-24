@@ -57,6 +57,26 @@ public class Prontuario {
 	private String evolucoes;
 
 	
+	public Prontuario() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Prontuario(Long id, @NotNull @Size(max = 30) String nomePaciente, @NotNull @Size(max = 10) String data,
+			@NotNull @Size(max = 30) String queixaPrincipal, @NotNull @Size(max = 40) String historiaDoencaAtual,
+			@NotNull @Size(max = 60) String interrogatorioSintomatoligico, @NotNull @Size(max = 70) String exameFisico,
+			@NotNull @Size(max = 50) String evolucoes) {
+		super();
+		this.id = id;
+		this.nomePaciente = nomePaciente;
+		this.data = data;
+		this.queixaPrincipal = queixaPrincipal;
+		this.historiaDoencaAtual = historiaDoencaAtual;
+		this.interrogatorioSintomatoligico = interrogatorioSintomatoligico;
+		this.exameFisico = exameFisico;
+		this.evolucoes = evolucoes;
+	}
+
 	public Long getId() {
 		return id;
 	}

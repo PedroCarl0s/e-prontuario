@@ -8,5 +8,5 @@ import com.riotinto.prontuario.model.Prontuario;
 
 public interface ProntuarioRepository extends JpaRepository<Prontuario, Long>{
 	
-	Optional<Prontuario> findByIdAndNomePacienteAndQueixaPrincipal(Long id, String nomePaciente, String queixaPrincipal);
+	Optional<Prontuario> findByNomePacienteAndQueixaPrincipal(String nomePaciente, String queixaPrincipal);
 }
