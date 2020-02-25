@@ -1,3 +1,4 @@
+
 # e-Prontuário Eletrônico
 
 
@@ -18,6 +19,52 @@
 
 4. Testar a API em algum software como  [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/) ou na própria documentação do **Swagger** no endereço http://localhost:7070/swagger-ui.html
 
+
+## OBSERVAÇÃO
+
+ Caso queira executar o projeto em alguma **IDE**, é necessário realizar alguns ajustes após a execução do `docker-compose up`:
+ 
+ 1. Desligue o *contêineres* com `docker stop docker-spring docker-mysql`
+
+ 2. Execute somente o *contêiner* do MySQL com `docker start docker-mysql`
+
+ 3. Obtenha o **IP** do contêiner* do MySQL  com `docker inspect docker-mysql`
+
+> **PS.:** Será retornado um JSON, e no fim dele, copie o endereço da linha **IPAdress**  (nesse caso, 172.23.0.2)
+
+```
+		[...]
+                    "Gateway": "xxxx",
+		            "IPAddress": "172.23.0.2",
+                    "IPPrefixLen": xxxx,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "xxxx",
+                    "GlobalIPv6PrefixLen": xxxx,
+                    "MacAddress": "xxxx",
+                    "DriverOpts": xxxx
+                }
+		[...]
+```
+
+ 4. Abra o arquivo *application.properties* (`projeto-avancado-group-1/e-prontuario/src/main/resources`)
+
+ 5. Edite a linha `spring.datasource.url`
+
+**ANTES**
+```properties
+spring.datasource.url=jdbc:mysql://mysql-service:3306/prontuario
+```
+
+**DEPOIS**
+```properties
+spring.datasource.url=jdbc:mysql://172.23.0.2:3306/prontuario
+```
+> **Lembrete.:** O *IP* `172.23.0.2` foi encontrado na seção 3 (Obtenha o IP do *contêiner* do MySQL ...)
+
+
+ 6. Execute o projeto na sua IDE
+ 
+---
 
 ## Link para a [API online](https://app.swaggerhub.com/apis-docs/e-prontuario/e-prontuario_eletronico/0.0.1) no Swagger 
 > **Disponível até às 23:59 do dia 21/02/2020**
