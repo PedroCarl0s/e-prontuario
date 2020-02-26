@@ -8,9 +8,7 @@ CREATE TABLE pacientes(
 	procedencia VARCHAR(30) NOT NULL,
 	profissao VARCHAR(30) NOT NULL,
 	nome_mae VARCHAR(35) NOT NULL,
-	id_endereco BIGINT NOT NULL,
 
 	PRIMARY KEY(id),
-	FOREIGN KEY (id_endereco) REFERENCES enderecos(id),
     CHECK (idade > 0)
 );
