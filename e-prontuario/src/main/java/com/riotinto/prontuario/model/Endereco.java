@@ -1,14 +1,18 @@
 package com.riotinto.prontuario.model;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "enderecos")
@@ -26,10 +30,10 @@ public class Endereco {
 	@Size(max = 40)
 	private String bairro;
 	
-	@NotEmpty
-	@Size(min = 1)
+	@Min(1)
 	private int numero;
 	
+	@JsonBackReference
 	@OneToOne(mappedBy = "endereco")
 	private Paciente paciente;
 
@@ -40,7 +44,7 @@ public class Endereco {
 	}
 
 	public Endereco(Long id, @NotNull @Size(max = 40) String rua, @NotNull @Size(max = 40) String bairro,
-			@NotEmpty @Size(min = 1) int numero, Paciente paciente) {
+			@NotEmpty @Min(1) int numero, Paciente paciente) {
 		super();
 		this.id = id;
 		this.rua = rua;
