@@ -39,17 +39,15 @@ public class FuncionarioController {
 	
 	@ApiOperation(value = "Lista todos os funcionários cadastrados", produces = "application/json")
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> listar() {
-		List<Funcionario> funcionarios = funcionariosService.findAll();
-		
-		return ResponseEntity.ok().body(funcionarios);
+	public List<Funcionario> listar() {
+		return funcionariosService.findAll();
 	}
 	
 	@ApiOperation(value = "Busca um funcionário pelo ID", produces = "application/json")
 	@GetMapping("/{id}")
 	public ResponseEntity<Funcionario> buscar(@PathVariable Long id) {
 		Optional<Funcionario> funcionario = funcionariosService.findById(id);
-		
+				
 		if (!funcionario.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -67,7 +65,7 @@ public class FuncionarioController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
 					"Já existe um funcionário com o mesmo nome, sobrenome e tipo");
 		}
-		
+				
 		funcionariosService.save(funcionario);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
