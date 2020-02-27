@@ -5,5 +5,5 @@ CREATE TABLE enderecos(
 	numero INT,
 	
 	PRIMARY KEY(id),
-    CHECK (idade > 0)
+    CHECK (numero > 0)
 );
