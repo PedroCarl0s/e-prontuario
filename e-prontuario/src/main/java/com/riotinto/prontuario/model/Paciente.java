@@ -1,5 +1,6 @@
 package com.riotinto.prontuario.model;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,48 +28,49 @@ public class Paciente {
 	private Long id;
 	
 	@ApiModelProperty(notes = "Nome do paciente", name = "nome", required = true)
-	@NotEmpty
+	@NotNull
 	@Size(max = 20)
 	private String nome;
 	
 	@ApiModelProperty(notes = "Sobrenome do paciente", name = "sobrenome", required = true)
-	@NotEmpty
+	@NotNull
 	@Size(max = 20)
 	private String sobrenome;
 	
 	@ApiModelProperty(notes = "Data de nascimento", name = "data_nascimento", required = true, value = "yyyy-mm-dd")
-	@NotEmpty
+	@NotNull
 	@Column(name = "data_nascimento")
 	private String dataNascimento;
 	
 	@ApiModelProperty(notes = "Idade do paciente", name = "idade", required = true)
 	@NotNull
-	@Min(1)
-	private int idade;
+	private Long idade;
 	
 	@ApiModelProperty(notes = "Naturalidade do paciente", name = "naturalidade", required = true)
-	@NotEmpty
+	@NotNull
 	@Size(max = 35)
 	private String naturalidade;
 	
 	@ApiModelProperty(notes = "Procedência do paciente", name = "procedencia", required = true)
-	@NotEmpty
+	@NotNull
 	@Size(max = 30)
 	private String procedencia;
 
 	@ApiModelProperty(notes = "Profissão do paciente", name = "profissao", required = true)
-	@NotEmpty
+	@NotNull
 	@Size(max = 30)
 	private String profissao;
 	
 	@ApiModelProperty(notes = "Nome da mãe", name = "nome_mae", required = true)
-	@NotEmpty
+	@NotNull
 	@Size(max = 35)
 	@Column(name = "nome_mae")
 	private String nomeMae;
 	
+	@JsonManagedReference
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(unique = true)
+	@JoinColumn
 	private Endereco endereco;
 	
 	
@@ -76,10 +78,10 @@ public class Paciente {
 		super();
 	}
 
-	public Paciente(Long id, @NotEmpty @Size(max = 20) String nome, @NotEmpty @Size(max = 20) String sobrenome,
-			@NotEmpty String dataNascimento, @NotNull @Min(1) int idade, @NotEmpty @Size(max = 35) String naturalidade,
-			@NotEmpty @Size(max = 30) String procedencia, @NotEmpty @Size(max = 30) String profissao,
-			@NotEmpty @Size(max = 35) String nomeMae, Endereco endereco) {
+	public Paciente(Long id, @NotNull @Size(max = 20) String nome, @NotNull @Size(max = 20) String sobrenome,
+			@NotNull String dataNascimento, @NotNull Long idade, @NotNull @Size(max = 35) String naturalidade,
+			@NotNull @Size(max = 30) String procedencia, @NotNull @Size(max = 30) String profissao,
+			@NotNull @Size(max = 35) String nomeMae, Endereco endereco) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -92,6 +94,8 @@ public class Paciente {
 		this.nomeMae = nomeMae;
 		this.endereco = endereco;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -125,11 +129,11 @@ public class Paciente {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public int getIdade() {
+	public Long getIdade() {
 		return idade;
 	}
 
-	public void setIdade(int idade) {
+	public void setIdade(Long idade) {
 		this.idade = idade;
 	}
 

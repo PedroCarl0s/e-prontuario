@@ -7,5 +7,4 @@ CREATE TABLE funcionarios(
 	local_de_trabalho VARCHAR(20) NOT NULL,
 	
 	PRIMARY KEY(id)
-
 );
