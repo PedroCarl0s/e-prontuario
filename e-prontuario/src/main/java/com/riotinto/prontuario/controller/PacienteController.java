@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.riotinto.prontuario.model.Paciente;
-import com.riotinto.prontuario.repository.PacienteRepository;
+import com.riotinto.prontuario.service.PacienteService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,19 +33,19 @@ import io.swagger.annotations.ApiOperation;
 public class PacienteController {
 
 	@Autowired
-	private PacienteRepository pacientes;
+	private PacienteService pacienteService;
 	
 	
 	@ApiOperation(value = "Lista todos os pacientes cadastrados", produces = "application/json")
 	@GetMapping
 	public List<Paciente> listar() {
-		return pacientes.findAll();
+		return pacienteService.findAll();
 	}
 	
 	@ApiOperation(value = "Busca um paciente pelo ID", produces = "application/json")
 	@GetMapping("/{id}")
 	public ResponseEntity<Paciente> buscar(@PathVariable Long id) {
-		Optional<Paciente> paciente = pacientes.findById(id);
+		Optional<Paciente> paciente = pacienteService.findById(id);
 		
 		if (!paciente.isPresent()) {
 			return ResponseEntity.notFound().build();
@@ -58,31 +58,31 @@ public class PacienteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Paciente adicionar(@Valid @RequestBody Paciente paciente) {
-		Optional<Paciente> pacienteExistente = pacientes.findByNomeAndSobrenomeAndDataNascimento
+		Optional<Paciente> pacienteExistente = pacienteService.findByNomeAndSobrenomeAndDataNascimento
 				(paciente.getNome(), paciente.getSobrenome(), paciente.getDataNascimento());
 		
 		if (pacienteExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Já existe um paciente com o mesmo nome, sobrenome e data de nascimento!");
 		}
 		
-		return pacientes.save(paciente);
+		return pacienteService.save(paciente);
 	}
 	
 	@ApiOperation(value = "Atualiza um paciente", produces = "application/json")
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Paciente atualizar(@Valid @RequestBody Paciente paciente) {
-		return pacientes.save(paciente);
+		return pacienteService.save(paciente);
 	}
 	
 	@ApiOperation(value = "Deleta um paciente pelo ID", produces = "application/json")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void deletar(@PathVariable Long id) {
-		Optional<Paciente> paciente = pacientes.findById(id);
+		Optional<Paciente> paciente = pacienteService.findById(id);
 		
 		if (paciente.isPresent()) {
-			pacientes.deleteById(id);
+			pacienteService.deleteById(id);
 		
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
