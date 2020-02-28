@@ -69,10 +69,21 @@ public class PacienteController {
 	}
 	
 	@ApiOperation(value = "Atualiza um paciente", produces = "application/json")
-	@PutMapping
+	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Paciente atualizar(@Valid @RequestBody Paciente paciente) {
-		return pacienteService.save(paciente);
+	public ResponseEntity<Paciente> atualizar(@Valid @RequestBody Paciente paciente, @PathVariable Long id) {
+		Optional<Paciente> pacienteExistente = pacienteService.findById(id);
+		
+		if (!pacienteExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
+					"Não existe um paciente com o ID " + id);
+		}
+
+		paciente.setId(id);
+		paciente.getEndereco().setId(id);
+		pacienteService.save(paciente);
+
+		return ResponseEntity.ok().body(paciente);
 	}
 	
 	@ApiOperation(value = "Deleta um paciente pelo ID", produces = "application/json")
