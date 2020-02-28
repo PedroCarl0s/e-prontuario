@@ -1,3 +1,6 @@
+# Created by https://www.gitignore.io/api/eclipse
+# Edit at https://www.gitignore.io/?templates=eclipse
+
 *#
 *.iml
 *.ipr
@@ -39,3 +42,7 @@ transaction-logs
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+
+### VisualStudioCode ###
+.vscode/*
+.history

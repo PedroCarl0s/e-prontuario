@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import io.swagger.annotations.ApiModelProperty;
 
 
@@ -67,7 +65,6 @@ public class Paciente {
 	@Column(name = "nome_mae")
 	private String nomeMae;
 	
-	@JsonManagedReference
 	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
