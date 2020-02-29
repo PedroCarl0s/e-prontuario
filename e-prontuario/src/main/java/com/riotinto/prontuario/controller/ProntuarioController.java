@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.riotinto.prontuario.model.Paciente;
 import com.riotinto.prontuario.model.Prontuario;
+import com.riotinto.prontuario.service.PacienteService;
 import com.riotinto.prontuario.service.ProntuarioService;
 
 import io.swagger.annotations.Api;
@@ -38,7 +40,11 @@ public class ProntuarioController {
 
 	@Autowired
 	private ProntuarioService prontuarioService;
-	
+
+	@Autowired
+	private PacienteService pacienteService;
+
+
 	@ApiOperation(value = "Lista todos os prontuários cadastrados", produces = "application/json")
 	@GetMapping
 	public List<Prontuario> listar() {
@@ -47,7 +53,7 @@ public class ProntuarioController {
 	
 	@ApiOperation(value = "Busca um prontuário pelo ID", produces = "application/json")
 	@GetMapping("/{id}")
-	public ResponseEntity<Prontuario> buscar(@PathVariable Long id) {
+	public ResponseEntity<Prontuario> buscar(@PathVariable("id") Long id) {
 		Optional<Prontuario> prontuario = prontuarioService.findById(id);
 		
 		if (!prontuario.isPresent()) {
@@ -58,37 +64,47 @@ public class ProntuarioController {
 	}
 	
 	@ApiOperation(value = "Adiciona um prontuário", produces = "application/json")
-	@PostMapping
+	@PostMapping("/{idPaciente}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Prontuario> adicionar(@Valid @RequestBody Prontuario prontuario) {
-		Optional<Prontuario> prontuarioExistente = prontuarioService.findByNomePacienteAndQueixaPrincipal(
-				prontuario.getNomePaciente(), prontuario.getQueixaPrincipal());
+	public ResponseEntity<Prontuario> adicionar(@Valid @RequestBody Prontuario prontuario, @PathVariable("idPaciente") Long idPaciente) {
+		
+		Optional<Paciente> pacienteExistente = pacienteService.findById(idPaciente);
+		
+		if (!pacienteExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existe um paciente com o ID " + idPaciente);
+		}
+
+		Paciente paciente = pacienteExistente.get();
+
+		Optional<Prontuario> prontuarioExistente = prontuarioService.findByPacienteAndData(
+				paciente, prontuario.getData());
 		
 		if (prontuarioExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-					"Já existe um prontuário com o mesmo nome do paciente e queixa principal");
+					"Já existe um prontuário com o mesmo paciente e a mesma data");
 		}
-		
+
+		prontuario.setPaciente(paciente);
 		prontuarioService.save(prontuario);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(prontuario.getId()).toUri();
 		
-		
-		return ResponseEntity.created(location).build() ;
+		return ResponseEntity.created(location).build();
 	}
 	
 	@ApiOperation(value = "Atualiza um prontuário", produces = "application/json")
 	@PutMapping("/{id}")
-	public ResponseEntity<Prontuario> atualizar(@Valid @RequestBody Prontuario prontuario, @PathVariable Long id) {
+	public ResponseEntity<Prontuario> atualizar(@Valid @RequestBody Prontuario prontuario, @PathVariable("id") Long id) {
 		Optional<Prontuario> prontuarioExistente = prontuarioService.findById(id);
 		
 		if (!prontuarioExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					"Não existe um prontuário com o ID " + id);
 		}
-		
+
 		prontuario.setId(id);
+		prontuario.setPaciente(prontuario.getPaciente());
 		prontuario.getSintoma().setId(id);
 		prontuarioService.save(prontuario);
 		
