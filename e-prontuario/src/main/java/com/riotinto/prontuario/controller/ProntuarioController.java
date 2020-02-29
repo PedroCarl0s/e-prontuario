@@ -89,6 +89,7 @@ public class ProntuarioController {
 		}
 		
 		prontuario.setId(id);
+		prontuario.getSintoma().setId(id);
 		prontuarioService.save(prontuario);
 		
 		return ResponseEntity.ok().body(prontuario);
