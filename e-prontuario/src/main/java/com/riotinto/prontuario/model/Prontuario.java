@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,11 +24,9 @@ public class Prontuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ApiModelProperty(notes = "Nome do paciente", name = "nome_paciente", required = true)
-	@NotNull
-	@Size(max = 30)
-	@Column(name = "nome_paciente")
-	private String nomePaciente;
+	@ApiModelProperty(notes = "Paciente avaliado", name = "paciente", required = true)
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Paciente paciente;
 
 	@ApiModelProperty(notes = "Data de preenchimento", name = "data", required = true, value = "yyyy-mm-dd")
 	@NotNull
@@ -64,13 +63,12 @@ public class Prontuario {
 		super();
 	}
 
-	public Prontuario(Long id, @NotNull @Size(max = 30) String nomePaciente, @NotNull @Size(max = 10) String data,
+	public Prontuario(Long id, @NotNull @Size(max = 10) String data,
 			@NotNull @Size(max = 30) String queixaPrincipal, @NotNull @Size(max = 40) String historiaDoencaAtual,
 			@NotNull Sintoma sintoma, @NotNull @Size(max = 70) String exameFisico,
 			@NotNull @Size(max = 50) String evolucoes) {
 		super();
 		this.id = id;
-		this.nomePaciente = nomePaciente;
 		this.data = data;
 		this.queixaPrincipal = queixaPrincipal;
 		this.historiaDoencaAtual = historiaDoencaAtual;
@@ -87,12 +85,12 @@ public class Prontuario {
 		this.id = id;
 	}
 
-	public String getNomePaciente() {
-		return nomePaciente;
+	public Paciente getPaciente() {
+		return paciente;
 	}
 
-	public void setNomePaciente(String nomePaciente) {
-		this.nomePaciente = nomePaciente;
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	public String getData() {
@@ -167,6 +165,5 @@ public class Prontuario {
 			return false;
 		return true;
 	}
-	
 	
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.riotinto.prontuario.model.Paciente;
 import com.riotinto.prontuario.model.Prontuario;
 import com.riotinto.prontuario.repository.ProntuarioRepository;
 
@@ -24,8 +25,8 @@ public class ProntuarioService {
 		return prontuarioDAO.findById(id);
 	}
 	
-	public Optional<Prontuario> findByNomePacienteAndQueixaPrincipal(String nome, String queixa) {
-		return prontuarioDAO.findByNomePacienteAndQueixaPrincipal(nome, queixa);
+	public Optional<Prontuario> findByPacienteAndData(Paciente paciente, String data) {
+		return prontuarioDAO.findByPacienteAndData(paciente, data);
 	}
 	
 	public Prontuario save(Prontuario prontuario) {
