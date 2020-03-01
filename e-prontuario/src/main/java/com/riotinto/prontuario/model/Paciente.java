@@ -1,6 +1,9 @@
 package com.riotinto.prontuario.model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,10 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -65,6 +71,10 @@ public class Paciente {
 	@Column(name = "nome_mae")
 	private String nomeMae;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "paciente", orphanRemoval = true)
+	private List<Prontuario> prontuarios = new ArrayList<>();
+
 	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
@@ -75,10 +85,10 @@ public class Paciente {
 		super();
 	}
 
-	public Paciente(Long id, @NotNull @Size(max = 20) String nome, @NotNull @Size(max = 20) String sobrenome,
-			@NotNull String dataNascimento, @NotNull Long idade, @NotNull @Size(max = 35) String naturalidade,
-			@NotNull @Size(max = 30) String procedencia, @NotNull @Size(max = 30) String profissao,
-			@NotNull @Size(max = 35) String nomeMae, Endereco endereco) {
+	public Paciente(Long id, @NotNull @Size(max = 20) final String nome, @NotNull @Size(max = 20) final String sobrenome,
+			@NotNull final String dataNascimento, @NotNull final Long idade, @NotNull @Size(max = 35) final String naturalidade,
+			@NotNull @Size(max = 30) final String procedencia, @NotNull @Size(max = 30) final String profissao,
+			@NotNull @Size(max = 35) final String nomeMae, final Endereco endereco) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -166,6 +176,10 @@ public class Paciente {
 		this.nomeMae = nomeMae;
 	}
 	
+	public List<Prontuario> getProntuarios() {
+		return this.prontuarios;
+	}
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -183,14 +197,14 @@ public class Paciente {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Paciente other = (Paciente) obj;
+		final Paciente other = (Paciente) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

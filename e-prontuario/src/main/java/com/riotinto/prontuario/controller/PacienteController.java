@@ -34,8 +34,6 @@ public class PacienteController {
 
 	@Autowired
 	private PacienteService pacienteService;
-	
-	
 	@ApiOperation(value = "Lista todos os pacientes cadastrados", produces = "application/json")
 	@GetMapping
 	public List<Paciente> listar() {
@@ -71,7 +69,7 @@ public class PacienteController {
 	@ApiOperation(value = "Atualiza um paciente", produces = "application/json")
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Paciente> atualizar(@Valid @RequestBody Paciente paciente, @PathVariable Long id) {
+	public ResponseEntity<Paciente> atualizar(@Valid @RequestBody Paciente paciente, @PathVariable("id") Long id) {
 		Optional<Paciente> pacienteExistente = pacienteService.findById(id);
 		
 		if (!pacienteExistente.isPresent()) {
