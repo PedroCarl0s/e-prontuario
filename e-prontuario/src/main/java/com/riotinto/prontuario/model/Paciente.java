@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -47,8 +48,8 @@ public class Paciente {
 	private String dataNascimento;
 	
 	@ApiModelProperty(notes = "Idade do paciente", name = "idade", required = true)
-	@NotNull
-	private Long idade;
+	@Min(1)
+	private int idade;
 	
 	@ApiModelProperty(notes = "Naturalidade do paciente", name = "naturalidade", required = true)
 	@NotNull
@@ -72,11 +73,11 @@ public class Paciente {
 	private String nomeMae;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "paciente", orphanRemoval = true)
+	@OneToMany(mappedBy = "paciente", cascade = CascadeType.MERGE, orphanRemoval = true)
 	private List<Prontuario> prontuarios = new ArrayList<>();
 
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn
 	private Endereco endereco;
 	
@@ -85,12 +86,11 @@ public class Paciente {
 		super();
 	}
 
-	public Paciente(Long id, @NotNull @Size(max = 20) final String nome, @NotNull @Size(max = 20) final String sobrenome,
-			@NotNull final String dataNascimento, @NotNull final Long idade, @NotNull @Size(max = 35) final String naturalidade,
-			@NotNull @Size(max = 30) final String procedencia, @NotNull @Size(max = 30) final String profissao,
-			@NotNull @Size(max = 35) final String nomeMae, final Endereco endereco) {
+	public Paciente(@NotNull @Size(max = 20) String nome, @NotNull @Size(max = 20) String sobrenome,
+			@NotNull String dataNascimento, @Min(1) int idade, @NotNull @Size(max = 35) String naturalidade,
+			@NotNull @Size(max = 30) String procedencia, @NotNull @Size(max = 30) String profissao,
+			@NotNull @Size(max = 35) String nomeMae, @NotNull Endereco endereco) {
 		super();
-		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.dataNascimento = dataNascimento;
@@ -136,11 +136,11 @@ public class Paciente {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public Long getIdade() {
+	public int getIdade() {
 		return idade;
 	}
 
-	public void setIdade(Long idade) {
+	public void setIdade(int idade) {
 		this.idade = idade;
 	}
 
