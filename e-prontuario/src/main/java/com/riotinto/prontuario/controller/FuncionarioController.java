@@ -76,7 +76,7 @@ public class FuncionarioController {
 	
 	@ApiOperation(value = "Atualiza um funcionário", produces = "application/json")
 	@PutMapping("/{id}")
-	public ResponseEntity<Funcionario> atualizar(@Valid @RequestBody Funcionario funcionario, @PathVariable Long id) {
+	public ResponseEntity<Funcionario> atualizar(@Valid @RequestBody Funcionario funcionario, @PathVariable("id") Long id) {
 		Optional<Funcionario> funcionarioExistente = funcionariosService.findById(id);
 		
 		if (!funcionarioExistente.isPresent()) {
