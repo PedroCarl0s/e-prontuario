@@ -57,13 +57,12 @@ public class Sintoma {
         super();
     }
 
-    public Sintoma(Long id, @Size(max = 150) String geral, @Size(max = 150) String pele,
+    public Sintoma(@Size(max = 150) String geral, @Size(max = 150) String pele,
             @Size(max = 150) String cabeca_e_pescoco, @Size(max = 350) String face_olhos_ouvidos_boca,
             @Size(max = 350) String ap_cardiovascular, @Size(max = 350) String ap_respiratorio,
             @Size(max = 350) String ap_digestivo, @Size(max = 350) String ap_genito_urinario,
             @Size(max = 350) String ap_musculo_esqueletico, @Size(max = 350) String ap_sist_nervoso_psiquismo,
             Prontuario prontuario) {
-        this.id = id;
         this.geral = geral;
         this.pele = pele;
         this.cabeca_e_pescoco = cabeca_e_pescoco;

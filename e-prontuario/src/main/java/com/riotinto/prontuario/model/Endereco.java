@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -42,10 +41,9 @@ public class Endereco {
 		super();
 	}
 
-	public Endereco(Long id, @NotNull @Size(max = 40) String rua, @NotNull @Size(max = 40) String bairro,
-			@NotEmpty @Min(1) int numero, Paciente paciente) {
+	public Endereco(@NotNull @Size(max = 40) String rua, @NotNull @Size(max = 40) String bairro,
+			@Min(1) int numero, Paciente paciente) {
 		super();
-		this.id = id;
 		this.rua = rua;
 		this.bairro = bairro;
 		this.numero = numero;

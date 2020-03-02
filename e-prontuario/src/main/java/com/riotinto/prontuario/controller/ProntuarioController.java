@@ -81,9 +81,15 @@ public class ProntuarioController {
 		
 		if (prontuarioExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-					"Já existe um prontuário com o mesmo paciente e a mesma data");
+					"Já existe um prontuário com o mesmo paciente e mesma data");
 		}
 
+		boolean valoresValidos = prontuarioService.validateWeightAndHeight(prontuario.getExameFisico().getPeso(), prontuario.getExameFisico().getAltura());
+
+		if (!valoresValidos) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
+				"Peso ou altura devem ser iguais a zero!");
+
+		prontuario.getExameFisico().setImc(prontuario.getExameFisico().getPeso(), prontuario.getExameFisico().getAltura());
 		prontuario.setPaciente(paciente);
 		prontuarioService.save(prontuario);
 		
@@ -105,6 +111,9 @@ public class ProntuarioController {
 
 		prontuario.setId(id);
 		prontuario.setPaciente(prontuario.getPaciente());
+		prontuario.getExameFisico().setId(id);
+		prontuario.getExameFisico().setImc(prontuario.getExameFisico().getPeso(), prontuario.getExameFisico().getAltura());
+
 		prontuario.getSintoma().setId(id);
 		prontuarioService.save(prontuario);
 		

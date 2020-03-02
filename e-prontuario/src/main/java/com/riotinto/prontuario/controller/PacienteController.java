@@ -56,8 +56,8 @@ public class PacienteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Paciente adicionar(@Valid @RequestBody Paciente paciente) {
-		Optional<Paciente> pacienteExistente = pacienteService.findByNomeAndSobrenomeAndDataNascimento
-				(paciente.getNome(), paciente.getSobrenome(), paciente.getDataNascimento());
+		Optional<Paciente> pacienteExistente = pacienteService.findByIdOrNomeAndSobrenomeAndDataNascimento
+				(paciente.getId(), paciente.getNome(), paciente.getSobrenome(), paciente.getDataNascimento());
 		
 		if (pacienteExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Já existe um paciente com o mesmo nome, sobrenome e data de nascimento!");

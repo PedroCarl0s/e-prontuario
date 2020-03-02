@@ -18,14 +18,14 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 @Table(name = "prontuarios")
 public class Prontuario {
-
+ 
 	@ApiModelProperty(notes = "Identificador do prontuário", name = "id", required = true)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ApiModelProperty(notes = "Paciente avaliado", name = "paciente", required = true)
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Paciente paciente;
 
 	@ApiModelProperty(notes = "Data de preenchimento", name = "data", required = true, value = "yyyy-mm-dd")
@@ -44,14 +44,14 @@ public class Prontuario {
 	private String historiaDoencaAtual;
 	
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn
 	private Sintoma sintoma;
 	
 	@NotNull
-	@Size(max = 70)
-	@Column(name = "exame_fisico")
-	private String exameFisico;
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@JoinColumn
+	private ExameFisico exameFisico;
 	
 	@NotNull
 	@Size(max = 50)
@@ -63,12 +63,11 @@ public class Prontuario {
 		super();
 	}
 
-	public Prontuario(Long id, @NotNull @Size(max = 10) String data,
+	public Prontuario(@NotNull @Size(max = 10) String data,
 			@NotNull @Size(max = 30) String queixaPrincipal, @NotNull @Size(max = 40) String historiaDoencaAtual,
-			@NotNull Sintoma sintoma, @NotNull @Size(max = 70) String exameFisico,
+			@NotNull Sintoma sintoma, @NotNull ExameFisico exameFisico,
 			@NotNull @Size(max = 50) String evolucoes) {
 		super();
-		this.id = id;
 		this.data = data;
 		this.queixaPrincipal = queixaPrincipal;
 		this.historiaDoencaAtual = historiaDoencaAtual;
@@ -125,11 +124,11 @@ public class Prontuario {
 		this.sintoma = sintoma;
 	}
 
-	public String getExameFisico() {
+	public ExameFisico getExameFisico() {
 		return exameFisico;
 	}
 
-	public void setExameFisico(String exameFisico) {
+	public void setExameFisico(ExameFisico exameFisico) {
 		this.exameFisico = exameFisico;
 	}
 

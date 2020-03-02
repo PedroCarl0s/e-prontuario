@@ -24,8 +24,8 @@ public class PacienteService {
         return pacienteDAO.findById(id);
     }
 
-    public Optional<Paciente> findByNomeAndSobrenomeAndDataNascimento(String nome, String sobrenome, String dataNascimento) {
-        return pacienteDAO.findByNomeAndSobrenomeAndDataNascimento(nome, sobrenome, dataNascimento);
+    public Optional<Paciente> findByIdOrNomeAndSobrenomeAndDataNascimento(Long id, String nome, String sobrenome, String dataNascimento) {
+        return pacienteDAO.findByIdOrNomeAndSobrenomeAndDataNascimento(id, nome, sobrenome, dataNascimento);
     }
 
     public Paciente save(Paciente paciente) {
