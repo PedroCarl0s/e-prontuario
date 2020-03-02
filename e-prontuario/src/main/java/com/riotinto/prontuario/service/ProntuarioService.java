@@ -37,4 +37,8 @@ public class ProntuarioService {
 		prontuarioDAO.deleteById(id);
 	}
 	
+	public boolean validateWeightAndHeight(double weight, double height) {
+		return (weight > 0 && height > 0);
+	}
+
 }
