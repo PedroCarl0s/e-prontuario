@@ -37,12 +37,12 @@ public class Funcionario {
 	@Size(max = 10)
 	private String dataContratacao;
 	
-	@ApiModelProperty(notes = "Tipo de funcionário", name = "tipo", required = true, allowableValues = "Médico, Enfermeiro, Atendente")
+	@ApiModelProperty(notes = "Tipo de funcionário", name = "tipo", required = true, allowableValues = "Enfermeiro, Atendente")
 	@NotNull
 	@Size(max = 15)
 	private String tipo;
 	
-	@ApiModelProperty(notes = "Nome do local de trabalho", name = "local_de_trabalho", required = true, allowableValues = "PSF, Hospital")
+	@ApiModelProperty(notes = "Nome do local de trabalho", name = "local_de_trabalho", required = true, allowableValues = "PSF, UBS, Hospital")
 	@NotNull
 	@Column(name = "local_de_trabalho")
 	@Size(max = 20)

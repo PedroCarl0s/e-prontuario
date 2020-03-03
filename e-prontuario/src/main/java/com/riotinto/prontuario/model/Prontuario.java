@@ -28,6 +28,10 @@ public class Prontuario {
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Paciente paciente;
 
+	@ApiModelProperty(notes = "Médico responsável", name = "medico", required = true)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Medico medico;
+
 	@ApiModelProperty(notes = "Data de preenchimento", name = "data", required = true, value = "yyyy-mm-dd")
 	@NotNull
 	@Size(max = 10)
@@ -59,9 +63,7 @@ public class Prontuario {
 	private String evolucoes;
 
 	
-	public Prontuario() {
-		super();
-	}
+	public Prontuario() {}
 
 	public Prontuario(@NotNull @Size(max = 10) String data,
 			@NotNull @Size(max = 30) String queixaPrincipal, @NotNull @Size(max = 40) String historiaDoencaAtual,
@@ -90,6 +92,14 @@ public class Prontuario {
 
 	public void setPaciente(Paciente paciente) {
 		this.paciente = paciente;
+	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
 	}
 
 	public String getData() {
