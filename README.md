@@ -14,7 +14,7 @@
 
 2. Entrar no diretório `e-prontuario`
 
-3. Execute o comando `mvn clean package` para gerar o `.jar` ou avance para o passo 4
+3. Execute o comando `mvn clean package` para gerar o `.jar` ou avance para o passo 4, caso o arquivo `prontuario.jar`  esteja no diretório `e-prontuario/target`
 
 3. Executar o banco de dados MySQL e o servidor da API REST, configurados no *docker-compose.yml*:
 `docker-compose up`
@@ -30,7 +30,7 @@
 
  2. Execute somente o *contêiner* do MySQL com `docker start docker-mysql`
 
- 3. Obtenha o **IP** do contêiner* do MySQL  com `docker inspect docker-mysql`
+ 3. Obtenha o **IP** do contêiner do MySQL  com `docker inspect docker-mysql`
 
 > **PS.:** Será retornado um JSON, e no fim dele, copie o endereço da linha **IPAdress**  (nesse caso, 172.23.0.2)
 
@@ -68,6 +68,12 @@ spring.datasource.url=jdbc:mysql://172.23.0.2:3306/prontuario
  
 ---
 
-# Links Externos
+# Apêndices
+
+- [[PDF]](https://drive.google.com/file/d/1GYiQC-3XvjyK5aWb1DuUz7ZQ4m_LwhNx/view?usp=sharing) Modelo Relacional do **e-prontuario**
+
+
+![enter image description here](https://imgur.com/9EEmYFD.png)
+
 
 - Tutorial utilizado para conteinerizar com Docker: [Docker compose with MySQL and Spring Boot ](https://medium.com/@kewynakshlley/docker-compose-with-mysql-and-spring-boot-596471664494)
