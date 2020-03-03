@@ -14,6 +14,8 @@
 
 2. Entrar no diretório `e-prontuario`
 
+3. Execute o comando `mvn clean package` para gerar o `.jar` ou avance para o passo 4
+
 3. Executar o banco de dados MySQL e o servidor da API REST, configurados no *docker-compose.yml*:
 `docker-compose up`
 
@@ -66,5 +68,6 @@ spring.datasource.url=jdbc:mysql://172.23.0.2:3306/prontuario
  
 ---
 
-## Link para a [API online](https://app.swaggerhub.com/apis-docs/e-prontuario/e-prontuario_eletronico/0.0.1) no Swagger 
-> **Disponível até às 23:59 do dia 21/02/2020**
+# Links Externos
+
+- Tutorial utilizado para conteinerizar com Docker: [Docker compose with MySQL and Spring Boot ](https://medium.com/@kewynakshlley/docker-compose-with-mysql-and-spring-boot-596471664494)
