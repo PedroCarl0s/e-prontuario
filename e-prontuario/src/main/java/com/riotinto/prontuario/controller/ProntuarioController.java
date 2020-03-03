@@ -22,20 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.riotinto.prontuario.model.Medico;
 import com.riotinto.prontuario.model.Paciente;
 import com.riotinto.prontuario.model.Prontuario;
+import com.riotinto.prontuario.service.MedicoService;
 import com.riotinto.prontuario.service.PacienteService;
 import com.riotinto.prontuario.service.ProntuarioService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/v1/api/prontuario")
 @CrossOrigin(origins = "*")
 @Api(value = "Prontuario", tags = { "Prontuário" })
-@ApiModel(description = "asfdasdfasdf", value = "asdfasdf")
 public class ProntuarioController {
 
 	@Autowired
@@ -43,6 +43,9 @@ public class ProntuarioController {
 
 	@Autowired
 	private PacienteService pacienteService;
+
+	@Autowired
+	private MedicoService medicoService;
 
 
 	@ApiOperation(value = "Lista todos os prontuários cadastrados", produces = "application/json")
@@ -64,33 +67,41 @@ public class ProntuarioController {
 	}
 	
 	@ApiOperation(value = "Adiciona um prontuário", produces = "application/json")
-	@PostMapping("/{idPaciente}")
+	@PostMapping("/{idPaciente}/{idMedico}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Prontuario> adicionar(@Valid @RequestBody Prontuario prontuario, @PathVariable("idPaciente") Long idPaciente) {
+	public ResponseEntity<Prontuario> adicionar(@Valid @RequestBody Prontuario prontuario, @PathVariable("idPaciente") Long idPaciente, @PathVariable("idMedico") Long idMedico) {
 		
 		Optional<Paciente> pacienteExistente = pacienteService.findById(idPaciente);
-		
+		Optional<Medico> medicoExistente = medicoService.findById(idMedico);
+
 		if (!pacienteExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existe um paciente com o ID " + idPaciente);
 		}
 
-		Paciente paciente = pacienteExistente.get();
+		if (!medicoExistente.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não existe um médico o ID " + idMedico);
+		}
 
-		Optional<Prontuario> prontuarioExistente = prontuarioService.findByPacienteAndData(
-				paciente, prontuario.getData());
+		Paciente paciente = pacienteExistente.get();
+		Medico medico = medicoExistente.get();
+
+		Optional<Prontuario> prontuarioExistente = prontuarioService.findByPacienteAndDataAndMedico(
+				paciente, prontuario.getData(), medico);
 		
 		if (prontuarioExistente.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-					"Já existe um prontuário com o mesmo paciente e mesma data");
+					"Já existe um prontuário com o mesmo paciente, data e médico responsável");
 		}
 
 		boolean valoresValidos = prontuarioService.validateWeightAndHeight(prontuario.getExameFisico().getPeso(), prontuario.getExameFisico().getAltura());
 
 		if (!valoresValidos) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
-				"Peso ou altura devem ser iguais a zero!");
+				"Peso ou altura devem ser maiores que zero!");
 
 		prontuario.getExameFisico().setImc(prontuario.getExameFisico().getPeso(), prontuario.getExameFisico().getAltura());
+		prontuario.setMedico(medico);
 		prontuario.setPaciente(paciente);
+
 		prontuarioService.save(prontuario);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
