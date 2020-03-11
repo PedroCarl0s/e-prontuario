@@ -1,6 +1,9 @@
 
 # e-Prontuário Eletrônico
 
+![](https://img.shields.io/static/v1?label=docker&message=%20&logo=docker&logoColor=white&color=blue&labelColor=blue)
+![](https://img.shields.io/static/v1?label=angular&message=%20&logo=angular&logoColor=red&color=42a1f5&labelColor=42a1f5)
+![](https://img.shields.io/static/v1?label=spring&message=%20&logo=spring&color=5df07b&labelColor=5df07b)
 
 ## Como executar a API REST e o Banco de Dados MySQL
 
