@@ -1,6 +1,8 @@
 
 # e-Prontuário Eletrônico
 
+Proposta de prontuário médico eletrônico para a disciplina de Projeto Avançado de Software I - 2019.2, utilizando API REST com Spring Boot, Banco de Dados MySQL e Docker
+
 ![](https://img.shields.io/static/v1?label=docker&message=%20&logo=docker&logoColor=white&color=blue&labelColor=blue)
 ![](https://img.shields.io/static/v1?label=angular&message=%20&logo=angular&logoColor=red&color=42a1f5&labelColor=42a1f5)
 ![](https://img.shields.io/static/v1?label=spring&message=%20&logo=spring&color=5df07b&labelColor=5df07b)
